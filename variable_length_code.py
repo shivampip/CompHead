@@ -12,7 +12,7 @@ class VLC:
     def make_huff_tree(self, data):
         moc= [(data.count(chr),chr) for chr in set(data)]
         #moc.sort(reverse= False)
-        print(moc)
+        print("Frequence tabel is {}".format(moc))
         
         dd= [Node(name= m[1], value= m[0]) for m in moc]
         
@@ -20,13 +20,13 @@ class VLC:
             a, dd= self.get_min_node(dd)
             b, dd= self.get_min_node(dd)
             ab= Node(value= a.value+ b.value)
-            #print('A is {} B is {} AB is {}'.format(a.value, b.value, ab.value))
+            print('A is {} B is {} AB is {}'.format(a.value, b.value, ab.value))
             ab.left= a
             ab.right= b
             dd.append(ab)
 
         d= dd[0]
-        #d.print(d)
+        d.print(d)
         self.root= d 
         tab= d.traverse(d)
         print('Table is {}'.format(tab))
@@ -39,8 +39,7 @@ class VLC:
             out+= self.tab[dd]
         return out
 
-    def decode_huff(self, data):
-        root= self.root 
+    def decode_huff(self, root, data):
         out= ""
         for bit in data:
             root= root.left if bit == '0' else root.right
@@ -55,6 +54,7 @@ class VLC:
         if(root.name is not None):
             out+= '1'
             out+= format(ord(root.name), 'b') 
+            out+= ""
             return out 
         else:
             out+= '0'
@@ -62,28 +62,32 @@ class VLC:
             out= self.encode_tree(root.right, out)
             return out 
 
-    def decode_tree(self, data):
-        b= data[0]
-        if(b=='1'):
-            value= data[1: 9]
-            print("Leaf Next value is {} chr is {}".format(value, chr(int(value, 2))))
-            #print(chr(int(value, 2)))
-            data= data[9:]
-            return Node(value= value)
-        if(b=='0'):
-            print("No Leaf")
-            data= data[1:]
-            left= self.decode_tree(data)
-            if(left.left is None):
-                data= data[8:]
-            data= data[1:]
-            right= self.decode_tree(data)
-            if(right.right is None):
-                data= data[8:]
+
+    def find_child(self, data, pb= 0):
+        bit= data[0]
+        del data[0]
+        if(bit=='0'):
             node= Node()
+    
+            left= self.find_child(data, pb= 0)
+            right= self.find_child(data, pb= 1)
+    
             node.left= left
             node.right= right
+            return node
+        else:
+            pattern= "".join(data[:7])
+            ch= chr(int(pattern, 2))
+            del data[:7]
+            node= Node(name=ch, value= ch) 
             return node 
+
+
+
+
+    def decode_tree(self, data):
+        data= list(data)
+        return self.find_child(data)
 
 
 

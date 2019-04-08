@@ -14,6 +14,6 @@ def test(inputd, output, decoded):
     print("Input Lenght: \t\t{}".format(len(inputd)))
     print("Binary Encoding: \t{}".format(len(b_eout)))
     print("Output Encoding: \t{}".format(len(output)))
-    print("Score:\t\t\t{0:.2f}".format(len(output)/len(b_eout)))
+    print("Compression Ratio:\t{0:.2f}".format(len(output)/len(b_eout)))
     print("Lossless:\t\t{}".format(inputd==decoded))
     print("="*31)
