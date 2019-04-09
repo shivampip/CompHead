@@ -10,7 +10,7 @@ def bitstring_to_bytes(data):
 def write_bytes(data, name):
     data= '1'+data 
     bydata= bitstring_to_bytes(data)
-    with open('files/{}.bnr'.format(name), 'wb') as f:
+    with open('files/{}'.format(name), 'wb') as f:
         f.write(bydata)
         print("Successfully written")
 

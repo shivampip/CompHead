@@ -40,6 +40,7 @@ class VLC:
         return out
 
     def decode_huff(self, root, data):
+        self.root= root 
         out= ""
         for bit in data:
             root= root.left if bit == '0' else root.right
