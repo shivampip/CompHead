@@ -1,8 +1,12 @@
 from tree import Node 
 from operator import attrgetter
+import ioman
 
 
 class VLC:
+
+    def __init__(self):
+        self.DELIMITER= '{:08b}'.format(ord('␜'))*2  # ␜ is file saperator
 
     def get_min_node(self, lst):
         node= min(lst, key=lambda inst: inst.value)
@@ -84,6 +88,34 @@ class VLC:
     def decode_tree(self, data):
         data= list(data)
         return self.find_child(data)
+
+
+    ################################################################
+
+
+    def encode_huffman(self, text= None, filename=None, outfile='files/out.bnr'):
+        if(text is None):
+            text= ioman.read_file(filename)
+        # Encode Huffman data    
+        huff_enc= self.encode_huff(text)
+        # Encode Huffman tree
+        enc_tree= self.encode_tree()
+        # Combining data and tree with delimiter
+        enc_data = huff_enc+ self.DELIMITER + enc_tree
+        # Writing Bytes
+        ioman.write_bytes(enc_data, outfile)
+        return outfile, huff_enc, enc_tree, enc_data
+
+    def decode_huffman(self, filename):
+        # Reading binary
+        read_out= ioman.read_binary(filename)
+        # Splitting Huffman data and tree/table
+        huff_data, huff_tree = read_out.split(self.DELIMITER)
+        # Decoding Huffmna tree
+        dec_tree= self.decode_tree(huff_tree)
+        # Decoding Huffman data with table/tree
+        dec_data= self.decode_huff(dec_tree, huff_data)
+        return dec_data
 
 
 

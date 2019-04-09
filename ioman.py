@@ -12,7 +12,7 @@ def write_bytes(data, name):
     bydata= bitstring_to_bytes(data)
     with open('files/{}'.format(name), 'wb') as f:
         f.write(bydata)
-        print("Successfully written")
+        return True 
 
 
 def read_file(name):
