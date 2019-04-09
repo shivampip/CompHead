@@ -92,6 +92,16 @@ class VLC:
 
     ################################################################
 
+    def preprocess(self, data):
+        # Original bitstring -> processed bits
+        return data 
+
+    def postprocess(self, data):
+        # Processed bits -> Original bitstring
+        return data 
+
+    ################################################################
+
 
     def encode_huffman(self, text= None, filename=None, outfile='files/out.bnr'):
         if(text is None):
@@ -102,6 +112,7 @@ class VLC:
         enc_tree= self.encode_tree()
         # Combining data and tree with delimiter
         enc_data = huff_enc+ self.DELIMITER + enc_tree
+        enc_data= self.preprocess(enc_data)
         # Writing Bytes
         ioman.write_bytes(enc_data, outfile)
         return outfile, huff_enc, enc_tree, enc_data
@@ -109,6 +120,7 @@ class VLC:
     def decode_huffman(self, filename):
         # Reading binary
         read_out= ioman.read_binary(filename)
+        read_out= self.postprocess(read_out)
         # Splitting Huffman data and tree/table
         huff_data, huff_tree = read_out.split(self.DELIMITER)
         # Decoding Huffmna tree
