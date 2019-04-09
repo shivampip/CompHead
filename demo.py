@@ -1,5 +1,6 @@
 from variable_length_code import VLC
 import comp_test 
+import ioman
 
 model= VLC()
 
@@ -16,11 +17,17 @@ h_eout= model.encode_huff(text)
 # Encoded Huffman Tree
 en_tree= model.encode_tree()
 
+final_en_out= h_eout+""+ en_tree
+
+ioman.write_bytes(final_en_out, 'cdata')
+
 # Decoded Huffman Tree
 dc_tree= model.decode_tree(en_tree)
 
 # Decoded Huffman data
 h_dout= model.decode_huff(dc_tree, h_eout)
+
+
 
 # Testing
 comp_test.test(text, h_eout, h_dout, en_tree)
