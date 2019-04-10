@@ -94,6 +94,7 @@ class VLC:
 
     def preprocess(self, data):
         # Original bitstring -> processed bits
+        print(data)
         return data 
 
     def postprocess(self, data):

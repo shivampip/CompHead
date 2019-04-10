@@ -4,13 +4,13 @@ import ioman
 
 
 
-out_file= 'hi2mb.bnr'
+out_file= 'male.txt'
 
 text= None
-#text= "Shivam Agrawal"
+text= "Shivam Agrawal"
 
 in_file= None
-in_file= 'its2mb.txt'
+#in_file= 'name_male.txt'
 
 
 model= VLC()
